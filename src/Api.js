@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { get } from "react-native/Libraries/Utilities/PixelRatio";
 
 
 
@@ -48,14 +49,47 @@ export default {
         return json;
     },
 
+    logout: async () => {
+
+        const token = await AsyncStorage.getItem('token');
+
+        const req = await fetch(`${BASE_API}/auth/logout`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({token})
+        });
+        const json = await req.json();        
+        return json;
+    },
+
+
+
+    //PEGA A LISTA DE BARBEIRO
     getBarbers: async (lat=null, lng=null, address=null) => {
         const token = await AsyncStorage.getItem('token');
 
         
-        console.log("ADDRESS", address);
+        // console.log("ADDRESS", address);
 
         const req = await fetch(`${BASE_API}/barbers?token=${token}&lat=${lat}&lng=${lng}&address=${address}`);
         const json = await req.json();
         return json;
+    },
+
+    //PEGA UM BARBEIRO ESPECIFICO
+    getBarber: async(id) =>{
+
+        const token = await AsyncStorage.getItem('token');
+        const req = await fetch(`${BASE_API}/barber/${id}?token=${token}`);
+        const json = await req.json();
+        console.log(json);
+        console.log(token);
+        return json;
+
     }
+
+
 }

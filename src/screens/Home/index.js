@@ -104,6 +104,7 @@ export default () => {
                     <LoadingIcon size="large" color="#FFF" />
                 } */}
 
+                    
                 <ListArea>
                     {list.map((item, k)=> (
                         <BarberItem key={k} data={item} />
